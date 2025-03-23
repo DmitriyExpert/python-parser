@@ -10,14 +10,23 @@ def statusCode(site_url):
 
 def parser_to_site(site_url, output_format="json", output_file="tagil_news"):
     # Проверка исключения при запросе к сайту
+    response = statusCode(site_url)
     try:
-        statusCode(site_url).raise_for_status()
+        response.raise_for_status()
     except requests.exceptions.RequestException as e:
         print(f"Ошибка при запросе к сайту: {e}")
         return
     
     # Сделаем так, чтобы BeautifulSoup прошел по странице и нашел отдельные блоки с новостями
     
-    
+    soup = BeautifulSoup(response.content, 'html.parser')
+    newsItem = soup.find_all("div", class_="inside")
+    news_data = []
+    print(newsItem[1])
+    # for item in newsItem:
+
+
+parser_to_site('https://www.tagil-tv.ru/news')
+
 
 
